@@ -6,7 +6,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -49,10 +48,11 @@
             <Text fx:id="cscantext" layoutX="551.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
             <Text layoutX="15.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="演示模式" />
             <Button fx:id="fcfsbtn" layoutX="70.0" layoutY="344.0" mnemonicParsing="false" onMousePressed="#fcfs_start" text="FCFS" />
-            <Button fx:id="sstfbtn" layoutX="121.0" layoutY="344.0" mnemonicParsing="false" text="SSTF" />
-            <Button fx:id="scanbtn" layoutX="173.0" layoutY="344.0" mnemonicParsing="false" text="电梯LOOK" />
-            <Button fx:id="cscanbtn" layoutX="258.0" layoutY="344.0" mnemonicParsing="false" text="C-SCAN" />
-            <Line fx:id="citou" endY="50.0" layoutX="334.0" layoutY="268.0" strokeWidth="3.0" />
+            <Button fx:id="sstfbtn" layoutX="121.0" layoutY="344.0" mnemonicParsing="false" onMousePressed="#sstf_start" text="SSTF" />
+            <Button fx:id="scanbtn" layoutX="173.0" layoutY="344.0" mnemonicParsing="false" onMousePressed="#scan_start" text="电梯LOOK" />
+            <Button fx:id="cscanbtn" layoutX="258.0" layoutY="344.0" mnemonicParsing="false" onMousePressed="#cscan_start" text="C-SCAN" />
+            <Rectangle fx:id="head" arcHeight="5.0" arcWidth="5.0" fill="#04101c" height="57.0" layoutX="273.0" layoutY="268.0" stroke="BLACK" strokeType="INSIDE" width="5.0" />
+            <Text fx:id="status" layoutX="350.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" />
          </children></AnchorPane>
   </content>
 </TitledPane>

@@ -1,6 +1,9 @@
 package sample;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
@@ -11,6 +14,7 @@ import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.beans.EventHandler;
 import java.util.List;
 
 public class Controller {
@@ -32,10 +36,12 @@ public class Controller {
     public TableColumn scantable;
     public TableColumn cscantable;
     public TableView cidaotable;
-    public Line citou;
+    public Rectangle head;
+    public PathTransition pathTransition;
+    public Text status;
 
     public double getX(int a) {
-        return (double) a / 1500.0 * (583.0 - 15.0) + 15.0;
+        return (double) a / 1500.0 * 567.0 + -257;
     }
 
     public void startRender() {
@@ -62,24 +68,44 @@ public class Controller {
         cidaotable.setItems(dataList);
     }
 
-    public void fcfs_start() {
-        int start = Integer.parseInt(start_position.getText());
-        Path path = new Path();
-        double x = citou.getLayoutX();
-        double y = citou.getLayoutY();
-        path.getElements().add(new MoveTo(15, y));
-//        path.getElements().add(new LineTo(100, y));
-//        path.getElements().add(new MoveTo(getX(start), y));
-//        for (Integer i : fcfs) {
-//            path.getElements().add(new LineTo(getX(i), y));
-//            System.out.println(getX(i));
-//        }
+    public void start_animation(List<Integer> track, int seconds, String name) {
+        if (pathTransition != null) {
+            pathTransition.stop();
+        }
+        if (track == null) {
+            status.setText("您还未初始化一组随机数");
+        } else {
+            int start = Integer.parseInt(start_position.getText());
+            int y = 30;
+            status.setText("策略：" + name + "  状态：进行中");
+            Path path = new Path();
+            path.getElements().add(new MoveTo(getX(start), y));
+            for (Integer i : track) {
+                path.getElements().add(new LineTo(getX(i), y));
+            }
+            pathTransition = new PathTransition();
+            pathTransition.setDuration(Duration.seconds(seconds));
+            pathTransition.setPath(path);
+            pathTransition.setNode(head);
+            pathTransition.setCycleCount(1);
+            pathTransition.play();
+            pathTransition.setOnFinished(actionEvent -> status.setText("策略：" + name + "  状态：结束"));
+        }
+    }
 
-        PathTransition pathTransition = new PathTransition();//创建一个动画对象
-        pathTransition.setDuration(Duration.seconds(1));//动画持续时间 0.5秒
-        pathTransition.setPath(path);//把我们设置好的动画路径放入里面
-        pathTransition.setNode(citou);//给动画添加组件，让某个组件来完成这个动画
-        pathTransition.setCycleCount(1);//执行1遍
-        pathTransition.play();//执行动画
+    public void fcfs_start() {
+        start_animation(fcfs, 60, "FCFS");
+    }
+
+    public void sstf_start() {
+        start_animation(sstf, 10, "SSTF");
+    }
+
+    public void scan_start() {
+        start_animation(scan, 10, "电梯LOOK");
+    }
+
+    public void cscan_start() {
+        start_animation(cscan, 10, "C-SCAN");
     }
 }
